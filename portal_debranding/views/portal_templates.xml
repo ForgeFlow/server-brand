@@ -10,7 +10,11 @@
         id="portal_record_sidebar_debrand"
         inherit_id="portal.portal_record_sidebar"
     >
-        <xpath expr="//div[hasclass('d-none')]" position="attributes">
+        <!-- 20.0: the title block is the first div.d-none of the sidebar -->
+        <xpath
+            expr="//a[contains(@href, 'utm_medium=portal')]/parent::div"
+            position="attributes"
+        >
             <attribute name="t-if">False</attribute>
         </xpath>
     </template>

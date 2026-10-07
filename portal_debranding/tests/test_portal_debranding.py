@@ -22,7 +22,20 @@ class TestPortalOdooDebranding(common.TransactionCase):
     def test_portal_record_sidebar_no_powered_by(self):
         """The 'Powered by Odoo' notice in portal sidebar must be removed."""
         html = self.env["ir.ui.view"]._render_template(
-            "portal.portal_record_sidebar", values={"classes": ""}
+            "portal.portal_record_sidebar",
+            values={"classes": "", "title": "Sidebar title"},
         )
         self.assertNotIn("Powered by", html)
-        self.assertNotIn("odoo.com?utm_medium=portal", html)
+        self.assertNotIn("utm_medium=portal", html)
+        # Only the branding is removed: the title block is still rendered
+        self.assertIn("Sidebar title", html)
+
+
+@common.tagged("post_install", "-at_install")
+class TestLoginOdooDebranding(common.HttpCase):
+    def test_login_no_powered_by(self):
+        """The 'Powered by Odoo' link of the login page must be removed."""
+        response = self.url_open("/web/login")
+        self.assertEqual(response.status_code, 200)
+        self.assertIn("oe_login_form", response.text)
+        self.assertNotIn("utm_medium=auth", response.text)
