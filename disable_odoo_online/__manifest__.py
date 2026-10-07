@@ -8,7 +8,7 @@
     "website": "https://github.com/OCA/server-brand",
     "license": "AGPL-3",
     "category": "Hidden",
-    "depends": ["mail"],
+    "depends": ["mail", "mysubscription"],
     "data": ["views/ir_ui_menu.xml"],
     "assets": {
         "web.assets_backend": [
